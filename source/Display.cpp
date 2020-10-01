@@ -1,6 +1,6 @@
+#include "Display.h"
 #include <stdlib.h>
 #include <stdio.h>
-#include "Display.h"
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
