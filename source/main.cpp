@@ -15,23 +15,23 @@ int main(int argc, char** argv)
 
     int tilemap[TILEMAP_HEIGHT][TILEMAP_WIDTH] = 
     {
-        { 1,0,0,1,1, 0,0,0,0,0, 1,1,1,1,1, 1,1,1,1,1 },
-        { 1,0,0,0,1, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0 },
-        { 1,0,0,0,1, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0 },
-        { 1,0,0,0,1, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0 },
-        { 1,0,0,0,0, 1,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0 },
+        { 3,0,0,3,3, 0,0,0,0,0, 3,3,3,3,3, 3,3,3,3,3 },
+        { 3,0,0,0,3, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0 },
+        { 3,0,0,0,3, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0 },
+        { 3,0,0,0,3, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0 },
+        { 3,0,0,0,0, 3,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0 },
 
-        { 1,0,0,0,0, 1,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0 },
-        { 1,0,0,0,0, 1,0,0,0,0, 0,0,1,1,1, 1,0,0,0,0 },
-        { 1,0,0,0,0, 1,0,0,0,0, 0,0,1,0,0, 0,1,0,0,0 },
-        { 1,0,0,0,0, 0,1,0,0,0, 1,0,1,0,0, 0,0,1,0,0 },
-        { 1,0,0,0,0, 0,1,0,0,0, 1,1,1,0,0, 0,0,0,1,1 },
+        { 3,0,0,0,0, 3,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0 },
+        { 3,0,0,0,0, 3,0,0,0,0, 0,0,3,3,3, 3,0,0,0,0 },
+        { 3,0,0,0,0, 3,0,0,0,0, 0,0,3,0,0, 0,3,0,0,0 },
+        { 3,0,0,0,0, 0,3,0,0,0, 3,0,3,0,0, 0,0,3,0,0 },
+        { 3,0,0,0,0, 0,3,0,0,0, 3,3,3,0,0, 0,0,0,3,3 },
 
-        { 1,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,1 },
-        { 1,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,1 },
-        { 1,0,0,0,0, 0,0,1,0,0, 0,0,0,0,0, 0,0,0,0,1 },
-        { 1,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,1 },
-        { 1,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,1 }
+        { 3,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,3 },
+        { 3,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,3 },
+        { 3,0,0,0,0, 0,0,3,0,0, 0,0,0,0,0, 0,0,0,0,3 },
+        { 3,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,3 },
+        { 3,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,3 }
     };
 
 
@@ -39,19 +39,20 @@ int main(int argc, char** argv)
     Shader_Program shader = make_shader("data/shaders/vertex_shader.glsl", 
                                         "data/shaders/fragment_shader.glsl");
 
-    //Sprite sprite;
-    //sprite.width = 64;
-    //sprite.height = 64;
-    //sprite.position = glm::vec2(100, 100);
-    //sprite.texture = load_texture("grass.png");
+    Sprite sprite;
+    sprite.width = 64;
+    sprite.height = 64;
+    sprite.position = glm::vec2(100, 100);
+    sprite.texture = load_texture("tanjirou.png");
 
-    //Sprite sprite2;
-    //sprite2.width = 64;
-    //sprite2.height = 64;
-    //sprite2.position = glm::vec2(600, 300);
-    //sprite2.texture = load_texture("dirt.png");
+    Sprite sprite2;
+    sprite2.width = 200;
+    sprite2.height = 268;
+    sprite2.position = glm::vec2(300, 300);
+    sprite2.texture = load_texture("nezuko.png");
 
-    Sprite_Renderer renderer = Sprite_Renderer(&shader);
+    Renderer renderer = Renderer(&shader);
+    renderer.set_tilemap(tilemap);
 
     //renderer.add_sprite(sprite);
     //renderer.add_sprite(sprite2);
@@ -60,9 +61,7 @@ int main(int argc, char** argv)
     {
         Display::update();
 
-        renderer.draw_tilemap(tilemap);
-
-        //renderer.render();
+        renderer.render();
 
         Display::swap_buffers();
     }

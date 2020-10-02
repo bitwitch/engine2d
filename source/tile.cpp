@@ -13,8 +13,10 @@
 Tile tile_types[NUM_TILE_TYPES];
 
 void init_tile_types() {
-    tile_types[TILE_GRASS] = Tile("grass.png");
-    tile_types[TILE_DIRT]  = Tile("dirt.png");
+    tile_types[TILE_GRASS]        = Tile("blocks_79.png");
+    tile_types[TILE_GRASS_BLOCK]  = Tile("blocks_1.png");
+    tile_types[TILE_DIRT_BLOCK]   = Tile("blocks_100.png");
+    tile_types[TILE_BLACK_BLOCK]  = Tile("blocks_19.png");
 };
 
 Tile::Tile(const char* filename) {

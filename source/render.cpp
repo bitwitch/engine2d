@@ -59,7 +59,7 @@ GLuint init_gl_buffers() {
 //
 // scope export
 //
-Sprite_Renderer::Sprite_Renderer(Shader_Program* _shader) {
+Renderer::Renderer(Shader_Program* _shader) {
     shader = _shader;
     vao = init_gl_buffers();
     glm::mat4 projection = glm::ortho(0.0f, (float)Display::width, 
@@ -70,11 +70,11 @@ Sprite_Renderer::Sprite_Renderer(Shader_Program* _shader) {
     stop_shader();
 }
 
-void Sprite_Renderer::add_sprite(Sprite sprite) {
+void Renderer::add_sprite(Sprite sprite) {
     sprites.push_back(sprite);
 }
 
-void Sprite_Renderer::draw_sprite (Sprite* sprite) 
+void Renderer::draw_sprite (Sprite* sprite) 
 {
     glm::mat4 matrix = glm::mat4(1.0f);
 
@@ -116,24 +116,35 @@ void Sprite_Renderer::draw_sprite (Sprite* sprite)
 
 }
 
-void Sprite_Renderer::draw_tilemap(int tilemap[TILEMAP_HEIGHT][TILEMAP_WIDTH]) {
-    start_shader(shader->program_id);
+void Renderer::set_tilemap(int _tilemap[TILEMAP_HEIGHT][TILEMAP_WIDTH]) {
+    memcpy(tilemap, _tilemap, sizeof(int) * TILEMAP_WIDTH * TILEMAP_HEIGHT);
+}
+
+void Renderer::draw_tilemap() {
     for (int j=0; j < TILEMAP_HEIGHT; j++) {
         for (int i=0; i < TILEMAP_WIDTH; i++) {
             Tile_Type type = (Tile_Type)tilemap[j][i];
             draw_tile(i, j, type);
         }
     }
-    stop_shader();
 }
 
-void Sprite_Renderer::draw_tile(int tile_x, int tile_y, Tile_Type type) {
+void Renderer::draw_tile(int tile_x, int tile_y, Tile_Type type) {
     Tile tile = tile_types[type];
 
-    glm::mat4 matrix = glm::mat4(1.0f);
+    float offset_x = 350;
+    float offset_y = -175;
+
+    float pos_x = (tile_x * 0.5f * TILE_WIDTH) + offset_x;
+    float pos_y = (tile_y * 0.5f * TILE_HEIGHT) + offset_y;
+
+    // get isometric coords
+    float iso_x = pos_x - pos_y;
+    float iso_y = (pos_x + pos_y) / 2.0f;
 
     // translate
-    matrix = glm::translate(matrix, glm::vec3(tile_x * TILE_WIDTH, tile_y * TILE_HEIGHT, 0.0f));
+    glm::mat4 matrix = glm::mat4(1.0f);
+    matrix = glm::translate(matrix, glm::vec3(iso_x, iso_y, 0.0f));
 
     //
     // rotation could go here, currently there is none 
@@ -160,21 +171,21 @@ void Sprite_Renderer::draw_tile(int tile_x, int tile_y, Tile_Type type) {
 }
 
 
-
-
-void Sprite_Renderer::render() {
+void Renderer::render() {
     clear();    
     start_shader(shader->program_id);
+    draw_tilemap();
     for (auto sprite: sprites) {
         draw_sprite(&sprite);
     }
     stop_shader();
 }
 
-// this doesn't really need to be a method on Sprite_Renderer
-void Sprite_Renderer::clear() {
-    glEnable(GL_DEPTH_TEST);
+// this doesn't really need to be a method on Renderer
+void Renderer::clear() {
+    //glEnable(GL_DEPTH_TEST);
     glClearColor(59/255.0f, 0/255.0f, 0/255.0f, 1); // red
+    //glClearColor(0/255.0f, 0/255.0f, 0/255.0f, 1);  // black
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 }
 

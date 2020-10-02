@@ -9,15 +9,17 @@
 struct Shader_Program;
 struct Sprite;
 
-struct Sprite_Renderer {
+struct Renderer {
     GLuint vao;
     Shader_Program* shader;
     std::vector<Sprite> sprites;
+    int tilemap[TILEMAP_HEIGHT][TILEMAP_WIDTH];
 
-    Sprite_Renderer(Shader_Program* shader);
+    Renderer(Shader_Program* shader);
     void draw_sprite(Sprite* sprite);
     void add_sprite(Sprite sprite);
-    void draw_tilemap(int tilemap[TILEMAP_HEIGHT][TILEMAP_WIDTH]);
+    void set_tilemap(int tilemap[TILEMAP_HEIGHT][TILEMAP_WIDTH]);
+    void draw_tilemap();
     void draw_tile(int tile_x, int tile_y, Tile_Type type);
     void render();
     void clear();
