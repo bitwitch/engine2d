@@ -55,6 +55,7 @@ GLuint init_gl_buffers() {
     return vao;
 }
 
+
 //
 // scope export
 //
@@ -102,13 +103,64 @@ void Sprite_Renderer::draw_sprite (Sprite* sprite)
     load_uniform_vector3(shader->loc_sprite_color, sprite->color);
 
     // bind texture
-    //glActiveTexture(GL_TEXTURE0);
-    //glBindTexture(GL_TEXTURE_2D, sprite->texture.id);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, sprite->texture);
 
+    // draw
     glBindVertexArray(vao);
     glDrawArrays(GL_TRIANGLES, 0, 6); // all sprites use the same 6 vertices
+
+    // unbind
     glBindVertexArray(0);
+    glBindTexture(GL_TEXTURE_2D, 0);
+
 }
+
+void Sprite_Renderer::draw_tilemap(int tilemap[TILEMAP_HEIGHT][TILEMAP_WIDTH]) {
+    start_shader(shader->program_id);
+    for (int j=0; j < TILEMAP_HEIGHT; j++) {
+        for (int i=0; i < TILEMAP_WIDTH; i++) {
+            Tile_Type type = (Tile_Type)tilemap[j][i];
+            draw_tile(i, j, type);
+        }
+    }
+    stop_shader();
+}
+
+void Sprite_Renderer::draw_tile(int tile_x, int tile_y, Tile_Type type) {
+    Tile tile = tile_types[type];
+
+    glm::mat4 matrix = glm::mat4(1.0f);
+
+    // translate
+    matrix = glm::translate(matrix, glm::vec3(tile_x * TILE_WIDTH, tile_y * TILE_HEIGHT, 0.0f));
+
+    //
+    // rotation could go here, currently there is none 
+    //
+    
+    // scale
+    matrix = glm::scale(matrix, glm::vec3(TILE_WIDTH, TILE_HEIGHT, 0.0f));
+
+    // uniforms
+    load_uniform_matrix(shader->loc_transformation_matrix, matrix);
+    load_uniform_vector3(shader->loc_sprite_color, glm::vec3(1.0f, 1.0f, 1.0f)); // no color right now
+
+    // bind texture
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, tile.texture);
+
+    // draw
+    glBindVertexArray(vao);
+    glDrawArrays(GL_TRIANGLES, 0, 6); // all sprites use the same 6 vertices
+
+    // unbind
+    glBindVertexArray(0);
+    glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+
+
 
 void Sprite_Renderer::render() {
     clear();    

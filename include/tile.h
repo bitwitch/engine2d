@@ -2,6 +2,8 @@
 
 #include "maths.h"
 #include <stdio.h>
+#include "glad/glad.h"
+#include <GLFW/glfw3.h>
 
 #define TILE_WIDTH     32
 #define TILE_HEIGHT    32
@@ -9,17 +11,21 @@
 #define TILEMAP_HEIGHT 15
 #define NUM_TILE_TYPES  2
 
-struct Tile {
-    int id;           
-    glm::vec3 color;
-    // later this will have an image associated as well
+enum Tile_Type {
+    TILE_GRASS,
+    TILE_DIRT,
+    COUNT
 };
 
-Tile make_tile(int id, glm::vec3 color);
+struct Tile {
+    GLuint texture;
+    Tile(const char* filename);
+    Tile() {};
+};
 
+// maps tile ids to tile properties
 extern Tile tile_types[NUM_TILE_TYPES];
 
 void init_tile_types();
 
-void draw_tilemap(int tilemap[TILEMAP_HEIGHT][TILEMAP_WIDTH]);
 
