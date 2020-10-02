@@ -7,11 +7,11 @@
 // scope file
 //
 GLuint init_gl_buffers() {
-    GLuint vao;
 
-    //  @Cleanup in order to be a good citizen these vbo ids should be managed
+    //  @Cleanup in order to be a good citizen these should be managed
     //  somewhere so that the buffers can be freed when no longer needed. That
     //  is just at the end of the program though so whatever.
+    GLuint vao;
     GLuint vbo1;
     GLuint vbo2;
 
@@ -69,22 +69,14 @@ Sprite_Renderer::Sprite_Renderer(Shader_Program* _shader) {
     stop_shader();
 }
 
-void Sprite_Renderer::draw_sprite (Sprite* sprite) {
+void Sprite_Renderer::add_sprite(Sprite sprite) {
+    sprites.push_back(sprite);
+}
 
-    // TEMP
-    // TEMP
-    // TEMP
-    glEnable(GL_DEPTH_TEST);
-    glClearColor(59/255.0f, 0/255.0f, 0/255.0f, 1); // red
-    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-    // TEMP
-    // TEMP
-    // TEMP
-
-
-    start_shader(shader->program_id);
-
+void Sprite_Renderer::draw_sprite (Sprite* sprite) 
+{
     glm::mat4 matrix = glm::mat4(1.0f);
+
     // translate
     matrix = glm::translate(matrix, glm::vec3(sprite->position, 0.0f));
 
@@ -109,13 +101,28 @@ void Sprite_Renderer::draw_sprite (Sprite* sprite) {
     load_uniform_matrix(shader->loc_transformation_matrix, matrix);
     load_uniform_vector3(shader->loc_sprite_color, sprite->color);
 
-    //glActiveTexture(GL_TEXTURE0);
     // bind texture
+    //glActiveTexture(GL_TEXTURE0);
+    //glBindTexture(GL_TEXTURE_2D, sprite->texture.id);
+
     glBindVertexArray(vao);
     glDrawArrays(GL_TRIANGLES, 0, 6); // all sprites use the same 6 vertices
     glBindVertexArray(0);
+}
 
+void Sprite_Renderer::render() {
+    clear();    
+    start_shader(shader->program_id);
+    for (auto sprite: sprites) {
+        draw_sprite(&sprite);
+    }
     stop_shader();
 }
 
+// this doesn't really need to be a method on Sprite_Renderer
+void Sprite_Renderer::clear() {
+    glEnable(GL_DEPTH_TEST);
+    glClearColor(59/255.0f, 0/255.0f, 0/255.0f, 1); // red
+    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+}
 
