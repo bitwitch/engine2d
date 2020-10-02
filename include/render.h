@@ -1,11 +1,18 @@
 #pragma once 
-#include "Maths.h"
+
+#include "glad/glad.h"
+#include <GLFW/glfw3.h>
+#include "maths.h"
+
+struct Shader_Program;
+struct Sprite;
 
 struct Sprite_Renderer {
     GLuint vao;
-    ShaderProgram* shader;
+    Shader_Program* shader;
 
-    Sprite_Renderer(ShaderProgram* shader);
+    Sprite_Renderer(Shader_Program* shader);
     void draw_sprite(Sprite* sprite);
 };
+
 

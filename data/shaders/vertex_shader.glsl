@@ -1,36 +1,17 @@
 #version 330
 
-layout (location = 0) in vec3 position;
+layout (location = 0) in vec2 position;
 layout (location = 1) in vec2 tex_coords;
-layout (location = 2) in vec3 normal;
 
 out vec2 pass_tex_coords;
-out vec3 surface_normal;
-out vec3 to_light;
-out vec3 to_camera;
-out float visibility;
 
 uniform mat4 transform;
 uniform mat4 projection;
 uniform mat4 view;
-uniform vec3 light_position;
-
-const float fog_density = 0.0035;
-const float fog_gradient = 7.0;
+uniform vec3 sprite_color;
 
 void main(void) {
-  vec4 world_position = transform * vec4(position, 1.0);
-  vec4 position_relative_to_cam = view * world_position;
-  gl_Position = projection * position_relative_to_cam;
+  vec4 world_position = transform * vec4(10, 10, 0.0, 1.0);
+  gl_Position = projection * world_position;
   pass_tex_coords = tex_coords;
-
-  surface_normal = (transform * vec4(normal, 0.0)).xyz;
-  to_light = light_position - world_position.xyz;
-
-  to_camera = (inverse(view) * vec4(0.0,0.0,0.0,1.0)).xyz - world_position.xyz;
-
-  float cam_distance = length(position_relative_to_cam.xyz);
-  visibility = exp(-pow((cam_distance * fog_density), fog_gradient));
-
-  visibility = clamp(visibility, 0.0, 1.0);
 }

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Maths.h"
+#include "maths.h"
 #include <stdio.h>
 
 #define TILE_WIDTH     32
@@ -11,11 +11,11 @@
 
 struct Tile {
     int id;           
-    Vector3 color;
+    glm::vec3 color;
     // later this will have an image associated as well
 };
 
-Tile make_tile(int id, Vector3 color);
+Tile make_tile(int id, glm::vec3 color);
 
 extern Tile tile_types[NUM_TILE_TYPES];
 

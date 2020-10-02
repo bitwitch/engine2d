@@ -1,6 +1,5 @@
-#include "ShaderProgram.h"
+#include "shader_program.h"
 #include <stdio.h>
-//#include <stdlib.h>
 
 //
 // scope file
@@ -68,8 +67,8 @@ GLuint load_shader(const char* filename, GLenum shader_type) {
 //
 // scope export
 // 
-ShaderProgram make_shader(const char* vert_path, const char* frag_path) {
-    ShaderProgram p;
+Shader_Program make_shader(const char* vert_path, const char* frag_path) {
+    Shader_Program p;
 
     // load and compile shaders
 
@@ -105,9 +104,27 @@ ShaderProgram make_shader(const char* vert_path, const char* frag_path) {
 
     p.loc_transformation_matrix  = glGetUniformLocation(p.program_id, "transform");
     p.loc_projection_matrix = glGetUniformLocation(p.program_id, "projection");
-    p.loc_view_matrix = glGetUniformLocation(p.program_id, "view");
+    //p.loc_view_matrix = glGetUniformLocation(p.program_id, "view"); 
+    p.loc_sprite_color = glGetUniformLocation(p.program_id, "sprite_color");
 
     return p;
+}
+
+
+void load_transformation_matrix(Shader_Program* shader, glm::mat4 matrix) {
+    glUniformMatrix4fv(shader->loc_transformation_matrix, 1, GL_FALSE, glm::value_ptr(matrix));
+}
+
+void load_uniform_float(GLint location, GLfloat value) {
+    glUniform1f(location, value);
+}
+
+void load_uniform_vector3(GLint location, glm::vec3 vector) {
+    glUniform3f(location, vector.x, vector.y, vector.z);
+}
+
+void load_uniform_matrix(GLint location, glm::mat4 matrix) {
+    glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
 }
 
 void start_shader(GLuint program_id) {
@@ -118,7 +135,7 @@ void stop_shader() {
     glUseProgram(0);
 }
 
-void delete_shader(ShaderProgram* p) {
+void delete_shader(Shader_Program* p) {
     stop_shader();
     glDetachShader(p->program_id, p->vertex_shader_id);
     glDetachShader(p->program_id, p->fragment_shader_id);

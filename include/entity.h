@@ -1,10 +1,12 @@
 #pragma once
 
-#include "Maths.h"
+#include "maths.h"
 
 struct Entity {
-    Vector2 position;
+    glm::vec2 position;
     float rotation;
-    Vector2 scale;
+    glm::vec2 scale;
+    float width;
+    float height;
 };
 
