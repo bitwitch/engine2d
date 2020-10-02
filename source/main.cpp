@@ -41,7 +41,9 @@ int main(int argc, char** argv)
     sprite.width = 32;
     sprite.height = 32;
     sprite.position = glm::vec2(100, 100);
-    sprite.color = glm::vec3(0.6f, 0.2f, 0.7f);
+    sprite.rotation = 0.0f;
+    sprite.scale = glm::vec2(1.0f, 1.0f);
+    sprite.color = glm::vec3(0.3f, 0.2f, 0.7f);
 
     Sprite_Renderer renderer = Sprite_Renderer(&shader);
 

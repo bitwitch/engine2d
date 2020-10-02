@@ -3,10 +3,10 @@
 #include "maths.h"
 
 struct Entity {
-    glm::vec2 position;
-    float rotation;
-    glm::vec2 scale;
-    float width;
-    float height;
+    glm::vec2 position   = glm::vec2(0.0f, 0.0f);
+    float rotation       = 0.0f;;
+    glm::vec2 scale      = glm::vec2(1.0f, 1.0f);
+    float width          = 32;
+    float height         = 32;
 };
 

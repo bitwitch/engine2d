@@ -61,9 +61,11 @@ GLuint init_gl_buffers() {
 Sprite_Renderer::Sprite_Renderer(Shader_Program* _shader) {
     shader = _shader;
     vao = init_gl_buffers();
-    glm::mat4 projection = glm::ortho(0.0f, (float)Display::width, (float)Display::height, 0.0f, -1.0f, 1.0f);
+    glm::mat4 projection = glm::ortho(0.0f, (float)Display::width, 
+                                     (float)Display::height, 0.0f, 
+                                     -1.0f, 1.0f);
     start_shader(shader->program_id);
-    load_uniform_matrix(shader->loc_transformation_matrix, projection);
+    load_uniform_matrix(shader->loc_projection_matrix, projection);
     stop_shader();
 }
 
@@ -87,12 +89,21 @@ void Sprite_Renderer::draw_sprite (Sprite* sprite) {
     matrix = glm::translate(matrix, glm::vec3(sprite->position, 0.0f));
 
     // rotate about center
-    matrix = glm::translate(matrix, glm::vec3(sprite->scale.x * 0.5f, sprite->scale.y * 0.5f, 0.0f));
-    matrix = glm::rotate(matrix, glm::radians(sprite->rotation), glm::vec3(0.0f, 0.0f, 1.0f));
-    matrix = glm::translate(matrix, glm::vec3(sprite->scale.x * -0.5f, sprite->scale.y * -0.5f, 0.0f));
+    matrix = glm::translate(matrix, glm::vec3(0.5f * sprite->width * sprite->scale.x,
+                                              0.5f * sprite->height * sprite->scale.y,
+                                              0.0f));
+
+    matrix = glm::rotate(matrix, glm::radians(sprite->rotation), 
+                         glm::vec3(0.0f, 0.0f, 1.0f));
+
+    matrix = glm::translate(matrix, glm::vec3(-0.5f * sprite->width * sprite->scale.x,
+                                              -0.5f * sprite->height * sprite->scale.y,
+                                              0.0f));
 
     // scale
-    matrix = glm::scale(matrix, glm::vec3(sprite->scale, 0.0f));
+    matrix = glm::scale(matrix, glm::vec3(sprite->width * sprite->scale.x,
+                                          sprite->height * sprite->scale.y, 
+                                          1.0f));
 
     // uniforms
     load_uniform_matrix(shader->loc_transformation_matrix, matrix);
@@ -101,7 +112,7 @@ void Sprite_Renderer::draw_sprite (Sprite* sprite) {
     //glActiveTexture(GL_TEXTURE0);
     // bind texture
     glBindVertexArray(vao);
-    glDrawArrays(GL_TRIANGLES, 0, 6);
+    glDrawArrays(GL_TRIANGLES, 0, 6); // all sprites use the same 6 vertices
     glBindVertexArray(0);
 
     stop_shader();

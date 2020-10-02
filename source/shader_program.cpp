@@ -110,11 +110,6 @@ Shader_Program make_shader(const char* vert_path, const char* frag_path) {
     return p;
 }
 
-
-void load_transformation_matrix(Shader_Program* shader, glm::mat4 matrix) {
-    glUniformMatrix4fv(shader->loc_transformation_matrix, 1, GL_FALSE, glm::value_ptr(matrix));
-}
-
 void load_uniform_float(GLint location, GLfloat value) {
     glUniform1f(location, value);
 }

@@ -14,5 +14,5 @@ void main(void) {
 //  vec4 world_position = transform * vec4(10, 10, 0.0, 1.0);
 //   gl_Position = projection * world_position;
 //  pass_tex_coords = tex_coords;
-    gl_Position = position;
+    gl_Position = projection * transform * vec4(position, 0.0, 1.0);
 }
