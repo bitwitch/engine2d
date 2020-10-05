@@ -25,7 +25,7 @@ GLuint load_texture(const char* filename) {
 
     if (!data) {
         printf("Failed to load texture\n");
-        data = stbi_load("data/textures/source_fail.png", &width, &height, &num_channels, 0);
+        data = stbi_load("data/textures/missing.png", &width, &height, &num_channels, 0);
     }
 
     GLenum pixel_format = GL_RGB;

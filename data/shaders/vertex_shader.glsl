@@ -7,7 +7,8 @@ out vec2 pass_tex_coords;
 
 uniform mat4 transform;
 uniform mat4 projection;
-uniform mat4 view;
+// uniform mat4 view;
+
 uniform vec3 sprite_color;
 
 void main(void) {

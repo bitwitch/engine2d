@@ -107,6 +107,7 @@ void Renderer::draw_sprite (Sprite* sprite)
     glBindTexture(GL_TEXTURE_2D, sprite->texture);
 
     // draw
+    //
     glBindVertexArray(vao);
     glDrawArrays(GL_TRIANGLES, 0, 6); // all sprites use the same 6 vertices
 
@@ -132,19 +133,19 @@ void Renderer::draw_tilemap() {
 void Renderer::draw_tile(int tile_x, int tile_y, Tile_Type type) {
     Tile tile = tile_types[type];
 
-    float offset_x = 350;
-    float offset_y = -175;
-
-    float pos_x = (tile_x * 0.5f * TILE_WIDTH) + offset_x;
-    float pos_y = (tile_y * 0.5f * TILE_HEIGHT) + offset_y;
+    float pos_x = (tile_x * TILE_WIDTH);
+    float pos_y = (tile_y * TILE_HEIGHT);
 
     // get isometric coords
-    float iso_x = pos_x - pos_y;
-    float iso_y = (pos_x + pos_y) / 2.0f;
+    float iso_x = 0.5f * (pos_x - pos_y);
+    float iso_y = 0.25f * (pos_x + pos_y);
+    iso_x += TILEMAP_ORIGIN_X;
+    iso_y += TILEMAP_ORIGIN_Y;
 
     // translate
     glm::mat4 matrix = glm::mat4(1.0f);
     matrix = glm::translate(matrix, glm::vec3(iso_x, iso_y, 0.0f));
+    //matrix = glm::translate(matrix, glm::vec3(pos_x, pos_y, 0.0f));
 
     //
     // rotation could go here, currently there is none 

@@ -34,10 +34,13 @@ int main(int argc, char** argv)
         { 3,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,3 }
     };
 
-
-    // NOTE(shaw): this could go in the sprite renderer ??
+    // NOTE(shaw): this could go in the renderer ??
     Shader_Program shader = make_shader("data/shaders/vertex_shader.glsl", 
                                         "data/shaders/fragment_shader.glsl");
+
+    Renderer renderer = Renderer(&shader);
+
+    renderer.set_tilemap(tilemap);
 
     Sprite sprite;
     sprite.width = 64;
@@ -50,9 +53,6 @@ int main(int argc, char** argv)
     sprite2.height = 268;
     sprite2.position = glm::vec2(300, 300);
     sprite2.texture = load_texture("nezuko.png");
-
-    Renderer renderer = Renderer(&shader);
-    renderer.set_tilemap(tilemap);
 
     //renderer.add_sprite(sprite);
     //renderer.add_sprite(sprite2);
