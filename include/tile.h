@@ -9,7 +9,7 @@
 #define TILE_HEIGHT    64
 #define TILEMAP_WIDTH  20
 #define TILEMAP_HEIGHT 15
-#define NUM_TILE_TYPES  3
+#define NUM_TILE_TYPES  4
 
 enum Tile_Type {
     TILE_GRASS,
