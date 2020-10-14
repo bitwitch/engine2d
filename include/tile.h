@@ -5,23 +5,15 @@
 #include "glad/glad.h"
 #include <GLFW/glfw3.h>
 
-#define TILE_WIDTH     64
-#define TILE_HEIGHT    64
-#define TILEMAP_WIDTH  20
-#define TILEMAP_HEIGHT 15
-
-#define TILEMAP_ORIGIN_X  500
-#define TILEMAP_ORIGIN_Y  50
-
 #define NUM_TILE_TYPES  6
 
 enum Tile_Type {
-    TILE_GRASS,
-    TILE_GRASS_BLOCK,
-    TILE_DIRT_BLOCK,
-    TILE_BLACK_BLOCK,
-    TILE_PINK,
-    TILE_GREEN_OUTLINE,
+    TILE_GRASS,                // 0
+    TILE_GRASS_BLOCK,          // 1
+    TILE_DIRT_BLOCK,           // 2
+    TILE_BLACK_BLOCK,          // 3
+    TILE_PINK,                 // 4
+    TILE_GREEN_OUTLINE,        // 5
     COUNT
 };
 
@@ -31,9 +23,22 @@ struct Tile {
     Tile() {};
 };
 
+struct Tilemap { 
+    int origin_x;
+    int origin_y;
+    int count_x;
+    int count_y;
+    int tile_width;
+    int tile_height;
+    int* tiles;
+};
+
 // maps tile ids to tile properties
 extern Tile tile_types[NUM_TILE_TYPES];
 
 void init_tile_types();
 
+Tile_Type tile_at(Tilemap* tilemap, float x, float y);
+
+bool is_solid(Tile_Type type);
 

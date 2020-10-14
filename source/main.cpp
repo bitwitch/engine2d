@@ -1,38 +1,47 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "display.h"
+#include "input.h"
 #include "tile.h"
-#include "sprite.h"
+#include "player.h"
 #include "texture.h"
 #include "shader_program.h"
 #include "render.h"
 
 int main(int argc, char** argv) 
 {
-    Display::create_window("Engine 2D");
+    Display::create_window("Engine 2D", Input::update_keyboard);
 
     init_tile_types();
 
-    int tilemap[TILEMAP_HEIGHT][TILEMAP_WIDTH] = 
+    Tilemap tilemap;
+    tilemap.count_x     = 20;
+    tilemap.count_y     = 15;
+    tilemap.origin_x    = 0;
+    tilemap.origin_y    = 0;
+    tilemap.tile_width  = 64;
+    tilemap.tile_height = 64;
+
+    int tiles[15][20] = 
     {
-        { 3,0,0,3,3, 0,0,0,0,0, 3,3,3,3,3, 3,3,3,3,3 },
-        { 3,0,0,0,3, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0 },
-        { 3,0,0,0,3, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0 },
-        { 3,0,0,0,3, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0 },
-        { 3,0,0,0,0, 3,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0 },
-
-        { 3,0,0,0,0, 3,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0 },
-        { 3,0,0,0,0, 3,0,0,0,0, 0,0,3,3,3, 3,0,0,0,0 },
-        { 3,0,0,0,0, 3,0,0,0,0, 0,0,3,0,0, 0,3,0,0,0 },
-        { 3,0,0,0,0, 0,3,0,0,0, 3,0,3,0,0, 0,0,3,0,0 },
-        { 3,0,0,0,0, 0,3,0,0,0, 3,3,3,0,0, 0,0,0,3,3 },
-
-        { 3,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,3 },
-        { 3,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,3 },
-        { 3,0,0,0,0, 0,0,3,0,0, 0,0,0,0,0, 0,0,0,0,3 },
-        { 3,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,3 },
-        { 3,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,3 }
+        { 4,5,5,4,4, 5,5,5,5,5, 4,4,4,4,4, 4,4,4,4,4 },
+        { 4,5,5,5,4, 5,5,5,5,5, 5,5,5,5,5, 5,5,5,5,5 },
+        { 4,5,5,5,4, 5,5,5,5,5, 5,5,5,5,5, 5,5,5,5,5 },
+        { 4,5,5,5,4, 5,5,5,5,5, 5,5,5,5,5, 5,5,5,5,5 },
+        { 4,5,5,5,5, 4,5,5,5,5, 5,5,5,5,5, 5,5,5,5,5 },
+        { 4,5,5,5,5, 4,5,5,5,5, 5,5,5,5,5, 5,5,5,5,5 },
+        { 4,5,5,5,5, 4,5,5,5,5, 5,5,4,4,4, 4,5,5,5,5 },
+        { 4,5,5,5,5, 4,5,5,5,5, 5,5,4,5,5, 5,4,5,5,5 },
+        { 4,5,5,5,5, 5,4,5,5,5, 4,5,4,5,5, 5,5,4,5,5 },
+        { 4,5,5,5,5, 5,4,5,5,5, 4,4,4,5,5, 5,5,5,4,4 },
+        { 4,5,5,5,5, 5,5,5,5,5, 5,5,5,5,5, 5,5,5,5,4 },
+        { 4,5,5,5,5, 5,5,5,5,5, 5,5,5,5,5, 5,5,5,5,4 },
+        { 4,5,5,5,5, 5,5,4,5,5, 5,5,5,5,5, 5,5,5,5,4 },
+        { 4,5,5,5,5, 5,5,5,5,5, 5,5,5,5,5, 5,5,5,5,4 },
+        { 4,5,5,5,5, 5,5,5,5,5, 5,5,5,5,5, 5,5,5,5,4 }
     };
+
+    tilemap.tiles = (int *)tiles;
 
     // NOTE(shaw): this could go in the renderer ??
     Shader_Program shader = make_shader("data/shaders/vertex_shader.glsl", 
@@ -40,26 +49,27 @@ int main(int argc, char** argv)
 
     Renderer renderer = Renderer(&shader);
 
-    renderer.set_tilemap(tilemap);
+    renderer.tilemap = &tilemap;
 
-    Sprite sprite;
-    sprite.width = 64;
-    sprite.height = 64;
-    sprite.position = glm::vec2(100, 100);
-    sprite.texture = load_texture("tanjirou.png");
+    Player player;
+    player.width = 100;
+    player.height = 134;
+    player.position = glm::vec2(100, 100);
+    player.sprite.texture = load_texture("nezuko.png");
+    player.tilemap = &tilemap;
 
-    Sprite sprite2;
-    sprite2.width = 200;
-    sprite2.height = 268;
-    sprite2.position = glm::vec2(300, 300);
-    sprite2.texture = load_texture("nezuko.png");
+    renderer.add_entity(&player);
 
-    //renderer.add_sprite(sprite);
-    //renderer.add_sprite(sprite2);
+
+    Tile_Type tile = tile_at(&tilemap, 50, 50);
+    printf("tile at 50, 50: %d\n", tile);
+
 
     while (!Display::window_should_close())
     {
         Display::update();
+
+        player.update(Display::frame_dt);
 
         renderer.render();
 
