@@ -1,0 +1,147 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		F9EA6FF1252FF9D90007AFEE /* engine2d debugger */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = F9EA6FF2252FF9D90007AFEE /* Build configuration list for PBXAggregateTarget "engine2d debugger" */;
+			buildPhases = (
+			);
+			dependencies = (
+			);
+			name = "engine2d debugger";
+			productName = "engine2d debugger";
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXFileReference section */
+		F9EA7016253000850007AFEE /* render.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = render.cpp; sourceTree = "<group>"; };
+		F9EA7017253000850007AFEE /* input.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = input.cpp; sourceTree = "<group>"; };
+		F9EA7018253000850007AFEE /* player.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = player.cpp; sourceTree = "<group>"; };
+		F9EA7019253000850007AFEE /* texture.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = texture.cpp; sourceTree = "<group>"; };
+		F9EA701A253000850007AFEE /* display.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = display.cpp; sourceTree = "<group>"; };
+		F9EA701B253000850007AFEE /* stb_image.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = stb_image.cpp; sourceTree = "<group>"; };
+		F9EA701C253000850007AFEE /* glad.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = glad.c; sourceTree = "<group>"; };
+		F9EA701D253000850007AFEE /* tile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = tile.cpp; sourceTree = "<group>"; };
+		F9EA701E253000850007AFEE /* shader_program.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = shader_program.cpp; sourceTree = "<group>"; };
+		F9EA701F253000850007AFEE /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		F9EA6FEA252FF9390007AFEE = {
+			isa = PBXGroup;
+			children = (
+				F9EA7015253000850007AFEE /* source */,
+			);
+			sourceTree = "<group>";
+		};
+		F9EA7015253000850007AFEE /* source */ = {
+			isa = PBXGroup;
+			children = (
+				F9EA7016253000850007AFEE /* render.cpp */,
+				F9EA7017253000850007AFEE /* input.cpp */,
+				F9EA7018253000850007AFEE /* player.cpp */,
+				F9EA7019253000850007AFEE /* texture.cpp */,
+				F9EA701A253000850007AFEE /* display.cpp */,
+				F9EA701B253000850007AFEE /* stb_image.cpp */,
+				F9EA701C253000850007AFEE /* glad.c */,
+				F9EA701D253000850007AFEE /* tile.cpp */,
+				F9EA701E253000850007AFEE /* shader_program.cpp */,
+				F9EA701F253000850007AFEE /* main.cpp */,
+			);
+			name = source;
+			path = ../source;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXProject section */
+		F9EA6FEB252FF9390007AFEE /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				KnownAssetTags = (
+					New,
+				);
+				LastUpgradeCheck = 1120;
+				TargetAttributes = {
+					F9EA6FF1252FF9D90007AFEE = {
+						CreatedOnToolsVersion = 11.2.1;
+					};
+				};
+			};
+			buildConfigurationList = F9EA6FEE252FF9390007AFEE /* Build configuration list for PBXProject "engine2d debugger" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = F9EA6FEA252FF9390007AFEE;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F9EA6FF1252FF9D90007AFEE /* engine2d debugger */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		F9EA6FEF252FF9390007AFEE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		F9EA6FF0252FF9390007AFEE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		F9EA6FF3252FF9D90007AFEE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		F9EA6FF4252FF9D90007AFEE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F9EA6FEE252FF9390007AFEE /* Build configuration list for PBXProject "engine2d debugger" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F9EA6FEF252FF9390007AFEE /* Debug */,
+				F9EA6FF0252FF9390007AFEE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F9EA6FF2252FF9D90007AFEE /* Build configuration list for PBXAggregateTarget "engine2d debugger" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F9EA6FF3252FF9D90007AFEE /* Debug */,
+				F9EA6FF4252FF9D90007AFEE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F9EA6FEB252FF9390007AFEE /* Project object */;
+}

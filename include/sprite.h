@@ -1,10 +1,8 @@
 #pragma once
 #include "maths.h"
-#include "entity.h"
+#include "glad/glad.h"
 
-
-
-struct Sprite : public Entity {
+struct Sprite {
     GLuint texture = 0;
     glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f);
 };

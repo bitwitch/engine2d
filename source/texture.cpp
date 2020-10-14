@@ -18,13 +18,13 @@ GLuint load_texture(const char* filename) {
 
     // load image
     int width, height, num_channels;
-    char full_filename[100];
+    char full_filename[300];
     sprintf(full_filename, "data/textures/%s", filename);
 
     unsigned char* data = stbi_load(full_filename, &width, &height, &num_channels, 0);
 
     if (!data) {
-        printf("Failed to load texture\n");
+        printf("Failed to load texture: %s\n", full_filename);
         data = stbi_load("data/textures/missing.png", &width, &height, &num_channels, 0);
     }
 

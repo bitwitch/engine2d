@@ -1,6 +1,6 @@
 #include "render.h"
 #include "shader_program.h" 
-#include "sprite.h" 
+#include "entity.h" 
 #include "display.h" 
 
 // 
@@ -70,41 +70,44 @@ Renderer::Renderer(Shader_Program* _shader) {
     stop_shader();
 }
 
-void Renderer::add_sprite(Sprite sprite) {
-    sprites.push_back(sprite);
+void Renderer::add_entity(Entity* entity) {
+    entities.push_back(entity);
 }
 
-void Renderer::draw_sprite (Sprite* sprite) 
+void Renderer::draw_entity (Entity* entity)
 {
     glm::mat4 matrix = glm::mat4(1.0f);
 
-    // translate
-    matrix = glm::translate(matrix, glm::vec3(sprite->position, 0.0f));
+    // translate, position is at bottom center of entity
+    matrix = glm::translate(matrix, 
+        glm::vec3(entity->position.x - (0.5f * entity->width  * entity->scale.x), 
+                  entity->position.y - (entity->height * entity->scale.y), 
+                            0.0f));
 
     // rotate about center
-    matrix = glm::translate(matrix, glm::vec3(0.5f * sprite->width * sprite->scale.x,
-                                              0.5f * sprite->height * sprite->scale.y,
+    matrix = glm::translate(matrix, glm::vec3(0.5f * entity->width * entity->scale.x,
+                                              0.5f * entity->height * entity->scale.y,
                                               0.0f));
 
-    matrix = glm::rotate(matrix, glm::radians(sprite->rotation), 
+    matrix = glm::rotate(matrix, glm::radians(entity->rotation), 
                          glm::vec3(0.0f, 0.0f, 1.0f));
 
-    matrix = glm::translate(matrix, glm::vec3(-0.5f * sprite->width * sprite->scale.x,
-                                              -0.5f * sprite->height * sprite->scale.y,
+    matrix = glm::translate(matrix, glm::vec3(-0.5f * entity->width * entity->scale.x,
+                                              -0.5f * entity->height * entity->scale.y,
                                               0.0f));
 
     // scale
-    matrix = glm::scale(matrix, glm::vec3(sprite->width * sprite->scale.x,
-                                          sprite->height * sprite->scale.y, 
+    matrix = glm::scale(matrix, glm::vec3(entity->width * entity->scale.x,
+                                          entity->height * entity->scale.y, 
                                           1.0f));
 
     // uniforms
     load_uniform_matrix(shader->loc_transformation_matrix, matrix);
-    load_uniform_vector3(shader->loc_sprite_color, sprite->color);
+    load_uniform_vector3(shader->loc_sprite_color, entity->sprite.color);
 
     // bind texture
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, sprite->texture);
+    glBindTexture(GL_TEXTURE_2D, entity->sprite.texture);
 
     // draw
     //
@@ -114,17 +117,12 @@ void Renderer::draw_sprite (Sprite* sprite)
     // unbind
     glBindVertexArray(0);
     glBindTexture(GL_TEXTURE_2D, 0);
-
-}
-
-void Renderer::set_tilemap(int _tilemap[TILEMAP_HEIGHT][TILEMAP_WIDTH]) {
-    memcpy(tilemap, _tilemap, sizeof(int) * TILEMAP_WIDTH * TILEMAP_HEIGHT);
 }
 
 void Renderer::draw_tilemap() {
-    for (int j=0; j < TILEMAP_HEIGHT; j++) {
-        for (int i=0; i < TILEMAP_WIDTH; i++) {
-            Tile_Type type = (Tile_Type)tilemap[j][i];
+    for (int j=0; j < tilemap->count_y; j++) {
+        for (int i=0; i < tilemap->count_x; i++) {
+            Tile_Type type = (Tile_Type)tilemap->tiles[j * tilemap->count_x + i];
             draw_tile(i, j, type);
         }
     }
@@ -133,26 +131,26 @@ void Renderer::draw_tilemap() {
 void Renderer::draw_tile(int tile_x, int tile_y, Tile_Type type) {
     Tile tile = tile_types[type];
 
-    float pos_x = (tile_x * TILE_WIDTH);
-    float pos_y = (tile_y * TILE_HEIGHT);
+    float pos_x = (tile_x * tilemap->tile_width);
+    float pos_y = (tile_y * tilemap->tile_height);
 
     // get isometric coords
     float iso_x = 0.5f * (pos_x - pos_y);
     float iso_y = 0.25f * (pos_x + pos_y);
-    iso_x += TILEMAP_ORIGIN_X;
-    iso_y += TILEMAP_ORIGIN_Y;
+    iso_x += tilemap->origin_x;
+    iso_y += tilemap->origin_y;
 
     // translate
     glm::mat4 matrix = glm::mat4(1.0f);
-    matrix = glm::translate(matrix, glm::vec3(iso_x, iso_y, 0.0f));
-    //matrix = glm::translate(matrix, glm::vec3(pos_x, pos_y, 0.0f));
+    //matrix = glm::translate(matrix, glm::vec3(iso_x, iso_y, 0.0f));
+    matrix = glm::translate(matrix, glm::vec3(pos_x, pos_y, 0.0f));
 
     //
     // rotation could go here, currently there is none 
     //
     
     // scale
-    matrix = glm::scale(matrix, glm::vec3(TILE_WIDTH, TILE_HEIGHT, 0.0f));
+    matrix = glm::scale(matrix, glm::vec3(tilemap->tile_width, tilemap->tile_height, 0.0f));
 
     // uniforms
     load_uniform_matrix(shader->loc_transformation_matrix, matrix);
@@ -176,8 +174,8 @@ void Renderer::render() {
     clear();    
     start_shader(shader->program_id);
     draw_tilemap();
-    for (auto sprite: sprites) {
-        draw_sprite(&sprite);
+    for (auto entity: entities) {
+        draw_entity(entity);
     }
     stop_shader();
 }
