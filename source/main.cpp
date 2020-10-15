@@ -10,7 +10,11 @@
 
 int main(int argc, char** argv) 
 {
-    Display::create_window("Engine 2D", Input::update_keyboard);
+    Display::create_window("Engine 2D");
+
+    Input::init(Display::window);
+
+    Input input = Input();
 
     init_tile_types();
 
@@ -60,16 +64,13 @@ int main(int argc, char** argv)
 
     renderer.add_entity(&player);
 
-
-    Tile_Type tile = tile_at(&tilemap, 50, 50);
-    printf("tile at 50, 50: %d\n", tile);
-
-
     while (!Display::window_should_close())
     {
+        input.update_keyboard(); // needs to happen before Display::update() which polls events
+
         Display::update();
 
-        player.update(Display::frame_dt);
+        player.update(&input, Display::frame_dt);
 
         renderer.render();
 
