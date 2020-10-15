@@ -14,7 +14,7 @@ namespace Display {
     extern GLFWwindow* window;
 
     bool window_should_close();
-    void create_window(const char* title, GLFWkeyfun key_callback);
+    void create_window(const char* title);
     void update();
     void swap_buffers();
     void close();

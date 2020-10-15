@@ -23,7 +23,7 @@ namespace Display {
         return glfwGetTime();
     }
 
-    void create_window(const char* title, GLFWkeyfun key_callback)
+    void create_window(const char* title)
     {
         glfwSetErrorCallback(error_callback);
 
@@ -41,8 +41,6 @@ namespace Display {
             glfwTerminate();
             exit(EXIT_FAILURE);
         }
-
-        glfwSetKeyCallback(window, key_callback);
 
         glfwMakeContextCurrent(window);
         gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
