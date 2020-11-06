@@ -20,7 +20,7 @@ void init_tile_types() {
     tile_types[TILE_BLACK_BLOCK]  = Tile("blocks_19.png");
 
     tile_types[TILE_PINK]           = Tile("pink.png");
-    tile_types[TILE_GREEN_OUTLINE]  = Tile("green_outline.png");
+    tile_types[TILE_GREEN_OUTLINE]  = Tile("green_outline.png", false);
     tile_types[TILE_BLACK]          = Tile("black.png");
     tile_types[TILE_WHITE]          = Tile("white.png", false);
 }

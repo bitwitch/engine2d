@@ -9,8 +9,8 @@
 GLuint init_gl_buffers() {
 
     //  @Cleanup in order to be a good citizen these should be managed
-    //  somewhere so that the buffers can be freed when no longer needed. That
-    //  is just at the end of the program though so whatever.
+    //  somewhere so that the buffers can be freed when no longer needed. 
+    //  Right now that is just at the end of the program though so whatever.
     GLuint vao;
     GLuint vbo1;
     GLuint vbo2;
@@ -78,11 +78,20 @@ void Renderer::draw_entity (Entity* entity)
 {
     glm::mat4 matrix = glm::mat4(1.0f);
 
-    // translate, position is at bottom center of entity
-    matrix = glm::translate(matrix, 
-        glm::vec3(entity->position.x - (0.5f * entity->width  * entity->scale.x), 
-                  entity->position.y - (entity->height * entity->scale.y), 
-                            0.0f));
+    // draw coords, entity pos is considered bottom center
+    float draw_x = entity->position.x - (0.5f * entity->width  * entity->scale.x);
+    float draw_y = entity->position.y - (entity->height * entity->scale.y);
+
+    // get isometric coords
+    //float iso_x = 0.5f * (draw_x - draw_y);
+    //float iso_y = 0.25f * (draw_x + draw_y);
+    //iso_x += tilemap->origin_x;
+    //iso_y += tilemap->origin_y;
+
+    // translate
+    matrix = glm::translate(matrix, glm::vec3(draw_x, draw_y, 0.0f));
+    //matrix = glm::translate(matrix, glm::vec3(iso_x, iso_y, 0.0f));
+
 
     // rotate about center
     matrix = glm::translate(matrix, glm::vec3(0.5f * entity->width * entity->scale.x,
@@ -99,7 +108,7 @@ void Renderer::draw_entity (Entity* entity)
     // scale
     matrix = glm::scale(matrix, glm::vec3(entity->width * entity->scale.x,
                                           entity->height * entity->scale.y, 
-                                          1.0f));
+                                          0.0f));
 
     // uniforms
     load_uniform_matrix(shader->loc_transformation_matrix, matrix);

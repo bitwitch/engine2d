@@ -6,6 +6,8 @@ struct Input;
 
 struct Player : public Entity {
     float speed = 100;
+    float move_collision_width;
+    float move_collision_height;
     Tilemap* tilemap;
     void update(Input* input, double dt);
 };
