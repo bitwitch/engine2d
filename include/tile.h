@@ -5,21 +5,23 @@
 #include "glad/glad.h"
 #include <GLFW/glfw3.h>
 
-#define NUM_TILE_TYPES  6
-
 enum Tile_Type {
     TILE_GRASS,                // 0
     TILE_GRASS_BLOCK,          // 1
     TILE_DIRT_BLOCK,           // 2
     TILE_BLACK_BLOCK,          // 3
+
     TILE_PINK,                 // 4
     TILE_GREEN_OUTLINE,        // 5
-    COUNT
+    TILE_BLACK,                // 6
+    TILE_WHITE,                // 7
+    TILE_TYPE_COUNT
 };
 
 struct Tile {
     GLuint texture;
-    Tile(const char* filename);
+    bool solid;
+    Tile(const char* filename, bool solid = true);
     Tile() {};
 };
 
@@ -33,12 +35,12 @@ struct Tilemap {
     int* tiles;
 };
 
-// maps tile ids to tile properties
-extern Tile tile_types[NUM_TILE_TYPES];
+// maps tile ids to tile properties, this is the list of all tiles that exist
+extern Tile tile_types[TILE_TYPE_COUNT];
 
 void init_tile_types();
 
-Tile_Type tile_at(Tilemap* tilemap, float x, float y);
+Tile tile_at(Tilemap* tilemap, float x, float y);
 
-bool is_solid(Tile_Type type);
+Tile_Type tile_type_at(Tilemap* tilemap, float x, float y);
 
