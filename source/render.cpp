@@ -78,9 +78,9 @@ void Renderer::draw_entity (Entity* entity)
 {
     glm::mat4 matrix = glm::mat4(1.0f);
 
-    // draw coords, entity pos is considered bottom center
+    // draw coords, entity pos is considered its center
     float draw_x = entity->position.x - (0.5f * entity->width  * entity->scale.x);
-    float draw_y = entity->position.y - (entity->height * entity->scale.y);
+    float draw_y = entity->position.y - (0.5f * entity->height * entity->scale.y);
 
     // get isometric coords
     //float iso_x = 0.5f * (draw_x - draw_y);

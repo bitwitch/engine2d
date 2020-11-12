@@ -4,6 +4,20 @@
  // TODO(shaw): remove dependency on glm
 #include "glm_subset.h"
 
+// returns true if the two line segments intersect and false otherwise
+// if the line segments intersect, the out parameter "intersection" will be 
+// filled with the intersection point
+bool test_intersect(glm::vec2 a1, glm::vec2 a2, glm::vec2 b1, glm::vec2 b2, 
+                    glm::vec2 *intersection);
+
+
+// returns the normalized distance along the line segement start->end where an
+// intersection with line segment p1->p2 occurs 
+// or in other words, the percentage along the line segment from start to stop
+// at which point p is located.
+float segment_percentage(glm::vec2 start, glm::vec2 stop, glm::vec2 p);
+
+
 ////
 //// Vector2
 ////

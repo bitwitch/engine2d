@@ -5,7 +5,7 @@ struct Tilemap;
 struct Input;
 
 struct Player : public Entity {
-    float speed = 100;
+    float speed = 200;
     float move_collision_width;
     float move_collision_height;
     Tilemap* tilemap;

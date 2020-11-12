@@ -5,3 +5,4 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/trigonometric.hpp>
+#include <glm/gtx/compatibility.hpp>

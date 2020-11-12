@@ -40,7 +40,11 @@ extern Tile tile_types[TILE_TYPE_COUNT];
 
 void init_tile_types();
 
+// get tile from a world x and y position
 Tile tile_at(Tilemap* tilemap, float x, float y);
+
+// get tile from a tilemap column index and row index
+Tile tile_at(Tilemap* tilemap, int col, float row);
 
 Tile_Type tile_type_at(Tilemap* tilemap, float x, float y);
 

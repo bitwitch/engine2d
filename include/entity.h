@@ -9,8 +9,8 @@ struct Entity {
     glm::vec2 scale            = glm::vec2(1.0f, 1.0f);
     float width                = 32;
     float height               = 32;
-    float collision_box_width  = 32;
-    float collision_box_height = 32;
+    float hitbox_width  = 32;
+    float hitbox_height = 32;
     Sprite sprite;
 };
 

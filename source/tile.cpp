@@ -42,6 +42,16 @@ Tile tile_at(Tilemap* tilemap, float x, float y) {
     return tile_types[type];
 }
 
+// get the tile from a column and row index in the tilemap
+Tile tile_at(Tilemap* tilemap, int col, float row) {
+    int tile_index = row * tilemap->count_x + col;
+    assert(tile_index < tilemap->count_x * tilemap->count_y);
+    assert(tile_index >= 0);
+
+    Tile_Type type = (Tile_Type)tilemap->tiles[tile_index];
+    return tile_types[type];
+}
+
 Tile_Type tile_type_at(Tilemap* tilemap, float x, float y) {
     int tile_x = (int)(x / tilemap->tile_width);
     int tile_y = (int)(y / tilemap->tile_height);
