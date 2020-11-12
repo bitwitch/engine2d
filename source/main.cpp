@@ -8,8 +8,43 @@
 #include "shader_program.h"
 #include "render.h"
 
+#include "network.h" 
+void temp_main() {
+    printf("\ntemp_main\n");
+
+    int port = 30000;
+    Socket socket;
+
+    if (!socket.open(port)) {
+        printf("Error: Failed to create socket! port: %d\n", port);
+        return;
+    }
+
+    const char data[] = "Hello Sailor!";
+
+    socket.send(Address(127,0,0,1,port), data, sizeof(data));
+
+    // receive packets
+    while (1) {
+        Address sender;
+        unsigned char buffer[256];
+        int bytes_read = socket.receive(sender, buffer, sizeof(buffer));
+        if (bytes_read <= 0) break;
+
+        // process packet
+        printf("\nbytes_read: %d\npacket data as string: %s\n", bytes_read, buffer);
+    }
+
+}
+
 int main(int argc, char** argv) 
 {
+
+
+    temp_main();
+    return 0;
+    
+
     Display::create_window("Engine 2D");
 
     Input::init(Display::window);
