@@ -6,15 +6,16 @@
 #include <GLFW/glfw3.h>
 
 enum Tile_Type {
-    TILE_GRASS,                // 0
-    TILE_GRASS_BLOCK,          // 1
-    TILE_DIRT_BLOCK,           // 2
-    TILE_BLACK_BLOCK,          // 3
+    TILE_EMPTY,                // 0
+    TILE_GRASS,                // 1
+    TILE_GRASS_BLOCK,          // 2
+    TILE_DIRT_BLOCK,           // 3
+    TILE_BLACK_BLOCK,          // 4
 
-    TILE_PINK,                 // 4
-    TILE_GREEN_OUTLINE,        // 5
-    TILE_BLACK,                // 6
-    TILE_WHITE,                // 7
+    TILE_PINK,                 // 5
+    TILE_GREEN_OUTLINE,        // 6
+    TILE_BLACK,                // 7
+    TILE_WHITE,                // 8
     TILE_TYPE_COUNT
 };
 
@@ -22,7 +23,7 @@ struct Tile {
     GLuint texture;
     bool solid;
     Tile(const char* filename, bool solid = true);
-    Tile() {};
+    Tile() { solid = false; };
 };
 
 struct Tilemap { 
