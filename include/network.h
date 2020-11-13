@@ -1,5 +1,6 @@
 #pragma once
 #include <stdint.h>
+
 struct Address {
     uint32_t address;
     uint16_t port;
@@ -12,13 +13,15 @@ struct Address {
             uint8_t d, 
             uint16_t port);
 
-    // these return the parts of the address
+    // these return parts of the address
     //  a | b | c | d
     // 000.000.000.000
     uint8_t a();
     uint8_t b();
     uint8_t c();
     uint8_t d();
+
+    void print_address();
 };
 
 struct Socket {

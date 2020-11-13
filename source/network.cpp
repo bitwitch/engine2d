@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include "network.h"
 
-// platform detection
 #define PLATFORM_WINDOWS  1
 #define PLATFORM_MAC      2
 #define PLATFORM_UNIX     3
@@ -26,6 +25,7 @@
 
 
 // scope file
+
 bool initialize_sockets() {
     #if PLATFORM == PLATFORM_WINDOWS
         WSADATA WsaData;
@@ -75,6 +75,9 @@ uint8_t Address::d() {
     return (uint8_t)address;
 }
 
+void Address::print_address() {
+   printf("%d.%d.%d.%d:%d", a(), b(), c(), d(), port);
+}
 
 // Socket
 // ---------------------------------------------------------------------------
@@ -189,4 +192,33 @@ Socket::~Socket() {
     WSACleanup();
     #endif
 }
+
+
+//void test_sockets() {
+    //printf("\ntemp_main\n");
+
+    //int port = 30000;
+    //Socket socket;
+
+    //if (!socket.open(port)) {
+        //printf("Error: Failed to create socket! port: %d\n", port);
+        //return;
+    //}
+
+    //const char data[] = "Hello Sailor!";
+    //auto dest = Address(127,0,0,1,port);
+    //socket.send(dest, data, sizeof(data));
+
+    //// receive packets
+    //while (1) {
+        //Address sender;
+        //unsigned char buffer[256];
+        //int bytes_read = socket.receive(sender, buffer, sizeof(buffer));
+        //if (bytes_read <= 0) break;
+
+        //// process packet
+        //printf("\nbytes_read: %d\npacket data as string: %s\n", bytes_read, buffer);
+    //}
+//}
+
 
