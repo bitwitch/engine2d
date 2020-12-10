@@ -12,6 +12,22 @@ struct Entity {
     float hitbox_width  = 32;
     float hitbox_height = 32;
     Sprite sprite;
-};
 
+    //Player_Id player;
+
+    char *name;
+    int cost;
+    int sell_value;
+    int hp;
+    int max_hp;
+
+    bool selected = false;
+
+    //virtual void awake();
+    //virtual void start();
+    //virtual void update();
+    //virtual void on_gui();
+    //virtual void perform_action(char *action);
+
+};
 

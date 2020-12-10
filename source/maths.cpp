@@ -17,3 +17,10 @@ float segment_intersect(glm::vec2 a1, glm::vec2 a2, glm::vec2 b1, glm::vec2 b2) 
     return -1.0f;
 }
 
+float lerp(float a, float b, float amt) {
+    return (1 - amt) * a + amt * b;
+}
+
+glm::vec2 lerp(glm::vec2 a, glm::vec2 b, float amt) {
+    return glm::vec2(lerp(a.x, b.x, amt), lerp(a.y, b.y, amt));
+}

@@ -1,7 +1,7 @@
 #include "display.h"
 #include <stdlib.h>
 #include <stdio.h>
-#include "input.h"
+//#include "input.h"
 
 void error_callback(int error, const char* description)
 {

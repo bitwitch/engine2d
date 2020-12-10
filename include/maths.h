@@ -17,8 +17,14 @@ bool test_intersect(glm::vec2 a1, glm::vec2 a2, glm::vec2 b1, glm::vec2 b2,
 // at which point p is located.
 float segment_percentage(glm::vec2 start, glm::vec2 stop, glm::vec2 p);
 
-
 float segment_intersect(glm::vec2 a1, glm::vec2 a2, glm::vec2 b1, glm::vec2 b2);
+
+
+// linear interpolation, lerp
+float lerp(float a, float b, float amt);
+glm::vec2 lerp(glm::vec2 a, glm::vec2 b, float amt);
+
+
 
 ////
 //// Vector2
